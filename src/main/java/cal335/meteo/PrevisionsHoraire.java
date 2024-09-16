@@ -2,11 +2,13 @@ package cal335.meteo;
 
 import java.util.List;
 
-public class PrevisionsHoraire extends Meteo {
+public class PrevisionsHoraire{
+
+    private String localisation;
     private List<Condition> conditions;
 
     public PrevisionsHoraire(String localisation, List<Condition> conditions) {
-        super(localisation);
+        this.localisation = localisation;
         this.conditions = conditions;
     }
 
@@ -16,9 +18,8 @@ public class PrevisionsHoraire extends Meteo {
 
     @Override
     public String toString() {
-        return "PrevisionsHoraire{" +
-                "localisation='" + getLocalisation() + '\'' +
-                ", conditions=" + conditions +
-                '}';
+        // TODO Implémetez cette méthode
+        //  afin qu'elle permette l'affichage des prévisions
+        return "";
     }
 }

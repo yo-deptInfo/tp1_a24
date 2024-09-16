@@ -5,19 +5,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class OpenWeatherMapService implements ApiService {
-    private final String API_KEY = "9f23a99453e6d7497516222f24551b13";
+public class OpenWeatherMapService {
+    //TODO Votre clé API
+    private final String API_KEY = "";
     private final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
 
-    @Override
-    public String obtenirDonneesMeteoActuelle(String ville) {
-        String endpoint = "weather?q=" + ville + "&appid=" + API_KEY + "&lang=fr&units=metric";
-        return envoyerRequete(endpoint);
-    }
-
-    @Override
     public String obtenirDonneesPrevisionsHoraires(String ville) {
-        String endpoint = "forecast?q=" + ville + "&appid=" + API_KEY + "&lang=fr&units=metric";
+        //TODO Complétez le code afin de construire le bon endpoint
+        String endpoint = "";
         return envoyerRequete(endpoint);
     }
 
@@ -32,7 +27,7 @@ public class OpenWeatherMapService implements ApiService {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+            content.append(inputLine);
             }
 
             in.close();
