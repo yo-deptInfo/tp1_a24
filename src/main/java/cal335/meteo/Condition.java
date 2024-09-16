@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 
 public class Condition {
 
-    private double temperature;
-    private double humidite;
-    private double pression;
+    private String temperature;
+    private String humidite;
+    private String pression;
     private String description;
     private LocalDateTime dateHeure;
 
-    public Condition(double temperature, double humidite, double pression, String description, LocalDateTime dateHeure) {
+    public Condition(String temperature, String humidite, String pression, String description, LocalDateTime dateHeure) {
         this.temperature = temperature;
         this.humidite = humidite;
         this.pression = pression;

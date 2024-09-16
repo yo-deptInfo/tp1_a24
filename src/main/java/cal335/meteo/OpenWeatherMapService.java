@@ -11,14 +11,25 @@ public class OpenWeatherMapService implements ApiService {
 
     @Override
     public String obtenirDonneesMeteoActuelle(String ville) {
+        String endpoint = "weather?q=" + ville + "&appid=" + API_KEY + "&lang=fr&units=metric";
+        return envoyerRequete(endpoint);
+    }
+
+    @Override
+    public String obtenirDonneesPrevisionsHoraires(String ville) {
+        String endpoint = "forecast?q=" + ville + "&appid=" + API_KEY + "&lang=fr&units=metric";
+        return envoyerRequete(endpoint);
+    }
+
+    private String envoyerRequete(String endpoint) {
+        StringBuilder content = new StringBuilder();
         try {
-            URL url = new URL(BASE_URL + "weather?q=" + ville + "&appid=" + API_KEY + "&lang=fr&units=metric");
+            URL url = new URL(BASE_URL + endpoint);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String inputLine;
-            StringBuilder content = new StringBuilder();
 
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
@@ -26,11 +37,10 @@ public class OpenWeatherMapService implements ApiService {
 
             in.close();
             conn.disconnect();
-            return content.toString();
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return content.toString();
     }
 }
