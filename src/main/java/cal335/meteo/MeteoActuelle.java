@@ -1,11 +1,22 @@
 package cal335.meteo;
 
-public class MeteoActuelle extends Meteo {
+public class MeteoActuelle extends Meteo  {
+    private Condition condition;
+
+    public MeteoActuelle(String localisation, Condition condition) {
+        super(localisation);
+        this.condition = condition;
+    }
+
+    public Condition getCondition() {
+        return condition;
+    }
+
     @Override
-    public void afficherDetails() {
-        System.out.println("Ville: " + ville);
-        System.out.println("Température: " + temperature + "°C");
-        System.out.println("Humidité: " + humidite + "%");
-        System.out.println("Description: " + description);
+    public String toString() {
+        return "MeteoActuelle{" +
+                "localisation='" + getLocalisation() + '\'' +
+                ", condition=" + condition +
+                '}';
     }
 }
