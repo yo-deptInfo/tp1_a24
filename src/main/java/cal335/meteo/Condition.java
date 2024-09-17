@@ -18,6 +18,26 @@ public class Condition {
         this.dateHeure = dateHeure;
     }
 
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public String getHumidite() {
+        return humidite;
+    }
+
+    public String getPression() {
+        return pression;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDateTime getDateHeure() {
+        return dateHeure;
+    }
+
     @Override
     public String toString() {
         return "Condition{" +

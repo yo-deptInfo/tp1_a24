@@ -28,7 +28,7 @@ public class MonAppMeteo {
 
     }
 
-    private static MeteoActuelle deserializerMeteoActuelle(String donneesMeteo) {
+    protected static MeteoActuelle deserializerMeteoActuelle(String donneesMeteo) {
         JSONObject json = new JSONObject(donneesMeteo);
 
         String temperature = String.valueOf(json.getJSONObject("main").getDouble("temp"));
