@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MonAppMeteo {
 
-    static  ApiService serviceMeteo;
+    private static ApiService serviceMeteo;
 
     public static void main(String[] args) {
 
