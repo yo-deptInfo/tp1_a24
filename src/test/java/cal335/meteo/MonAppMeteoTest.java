@@ -13,25 +13,39 @@ public class MonAppMeteoTest {
 
     String jsonActuel;
     String jsonPrevision;
+    Localisation localisationAttendue;
 
     @BeforeEach
     public void setUp() throws IOException {
+        recupererJson();
+        recupererLocalisationCommune();
+
+    }
+
+    private void recupererJson() throws IOException {
         // Chemin vers le fichier JSON dans src/test/resources
-        String cheminFichierActuel= getClass().getClassLoader().getResource("testMeteoActuelle.json").getPath();
-        String cheminFichierPrevision = getClass().getClassLoader().getResource("testPrevisionHoraire.json").getPath();
+        String cheminMeteoActuelle =
+                getClass().getClassLoader().getResource("testMeteoActuelle.json").getPath();
+        String cheminPrevisionHoraire =
+                getClass().getClassLoader().getResource("testPrevisionHoraire.json").getPath();
 
         // Lire le contenu du fichier JSON dans une chaîne de caractères
-        jsonActuel = new String(Files.readAllBytes(Paths.get(cheminFichierActuel)));
-        jsonPrevision = new String(Files.readAllBytes(Paths.get(cheminFichierPrevision)));
+        jsonActuel = new String(Files.readAllBytes(Paths.get(cheminMeteoActuelle)));
+        jsonPrevision = new String(Files.readAllBytes(Paths.get(cheminPrevisionHoraire)));
 
+    }
 
+    private void recupererLocalisationCommune() {
+        localisationAttendue =
+                new Localisation(6077243.0, "Montréal", "CA", 45.5088, -73.5878, -14400.0);
     }
 
     @Test
     public void testDeserializerMeteoActuelle() {
         MeteoActuelle meteoActuelle = MonAppMeteo.deserialiserMeteoActuelle(jsonActuel, "Montréal");
         assertNotNull(meteoActuelle);
-        assertEquals("Montreal", meteoActuelle.getLocalisation());
+        assertNotNull(meteoActuelle.getLocalisation());
+        assertEquals(localisationAttendue.toString(), meteoActuelle.getLocalisation().toString());
         assertNotNull(meteoActuelle.getCondition());
     }
 
@@ -39,8 +53,11 @@ public class MonAppMeteoTest {
     public void testDeserialiserPrevisionsHoraire() {
         PrevisionsHoraire previsionsHoraire = MonAppMeteo.deserialiserPrevisionsHoraire(jsonPrevision, "Montréal");
         assertNotNull(previsionsHoraire);
+        assertNotNull(previsionsHoraire.getLocalisation());
+        assertEquals(localisationAttendue.toString(), previsionsHoraire.getLocalisation().toString());
         assertNotNull(previsionsHoraire.getConditions());
         assertFalse(previsionsHoraire.getConditions().isEmpty());
+        assertEquals(40, previsionsHoraire.getConditions().size());
     }
 
 }
