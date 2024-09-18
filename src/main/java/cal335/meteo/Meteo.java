@@ -1,13 +1,14 @@
 package cal335.meteo;
 
 public abstract class Meteo {
-    private String localisation;
+//    private String localisation;
+    private Localisation localisation;
 
-    public Meteo(String localisation) {
+    public Meteo(Localisation localisation) {
         this.localisation = localisation;
     }
 
-    public String getLocalisation() {
+    public Localisation getLocalisation() {
         return localisation;
     }
 

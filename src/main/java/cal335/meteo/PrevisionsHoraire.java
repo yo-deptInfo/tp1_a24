@@ -5,7 +5,7 @@ import java.util.List;
 public class PrevisionsHoraire extends Meteo {
     private List<Condition> conditions;
 
-    public PrevisionsHoraire(String localisation, List<Condition> conditions) {
+    public PrevisionsHoraire(Localisation localisation, List<Condition> conditions) {
         super(localisation);
         this.conditions = conditions;
     }

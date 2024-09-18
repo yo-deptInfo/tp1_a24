@@ -20,7 +20,7 @@ public class MonAppMeteo {
 
         serviceMeteo = new OpenWeatherMapService();
         String donneesMeteo = serviceMeteo.obtenirDonneesMeteoActuelle(localite);
-        MeteoActuelle meteoActuelle = deserializerMeteoActuelle(donneesMeteo, localite);
+        MeteoActuelle meteoActuelle = deserialiserMeteoActuelle(donneesMeteo, localite);
         System.out.println(meteoActuelle);
 
         // Obtenir données pour les prévisions horaires
@@ -30,7 +30,7 @@ public class MonAppMeteo {
 
     }
 
-    protected static MeteoActuelle deserializerMeteoActuelle(String donneesMeteoActuelle, String ville) {
+    protected static MeteoActuelle deserialiserMeteoActuelle(String donneesMeteoActuelle, String ville) {
         JSONObject json = new JSONObject(donneesMeteoActuelle);
 
         String temperature = String.valueOf(json.getJSONObject("main").getDouble("temp"));
@@ -41,7 +41,10 @@ public class MonAppMeteo {
         LocalDateTime dateHeure = LocalDateTime.ofEpochSecond(json.getLong("dt"), 0, ZoneOffset.UTC);
 
         Condition condition = new Condition(temperature, humidite, pression, description, dateHeure);
-        return new MeteoActuelle(ville, condition);
+
+        Localisation localisation = null;
+
+        return new MeteoActuelle(localisation, condition);
     }
 
     protected static PrevisionsHoraire deserialiserPrevisionsHoraire(String donneesPrevisionsHoraires, String ville) {

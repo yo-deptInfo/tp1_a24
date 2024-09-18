@@ -3,7 +3,7 @@ package cal335.meteo;
 public class MeteoActuelle extends Meteo  {
     private Condition condition;
 
-    public MeteoActuelle(String localisation, Condition condition) {
+    public MeteoActuelle(Localisation localisation, Condition condition) {
         super(localisation);
         this.condition = condition;
     }

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +29,7 @@ public class MonAppMeteoTest {
 
     @Test
     public void testDeserializerMeteoActuelle() {
-        MeteoActuelle meteoActuelle = MonAppMeteo.deserializerMeteoActuelle(jsonActuel, "Montréal");
+        MeteoActuelle meteoActuelle = MonAppMeteo.deserialiserMeteoActuelle(jsonActuel, "Montréal");
         assertNotNull(meteoActuelle);
         assertEquals("Montreal", meteoActuelle.getLocalisation());
         assertNotNull(meteoActuelle.getCondition());
