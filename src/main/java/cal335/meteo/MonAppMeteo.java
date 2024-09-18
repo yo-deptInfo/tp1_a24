@@ -42,7 +42,7 @@ public class MonAppMeteo {
         return new MeteoActuelle("Montreal", condition);
     }
 
-    private static List<Condition> deserialiserPrevisionsHoraire(String previsionHoraireJson) {
+    protected static List<Condition> deserialiserPrevisionsHoraire(String previsionHoraireJson) {
         JSONObject json = new JSONObject(previsionHoraireJson);
         JSONArray previsionsArray = json.getJSONArray("list");
 
