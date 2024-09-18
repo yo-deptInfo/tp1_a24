@@ -15,21 +15,23 @@ public class MonAppMeteo {
     static  ApiService serviceMeteo;
 
     public static void main(String[] args) {
+
+        String localite = "Montreal";
+
         serviceMeteo = new OpenWeatherMapService();
-        String donneesMeteo = serviceMeteo.obtenirDonneesMeteoActuelle("Montreal");
-        MeteoActuelle meteoActuelle = deserializerMeteoActuelle(donneesMeteo);
+        String donneesMeteo = serviceMeteo.obtenirDonneesMeteoActuelle(localite);
+        MeteoActuelle meteoActuelle = deserializerMeteoActuelle(donneesMeteo, localite);
         System.out.println(meteoActuelle);
 
         // Obtenir données pour les prévisions horaires
-        String previsionHoraireJson = serviceMeteo.obtenirDonneesPrevisionsHoraires("Montreal");
-        List<Condition> conditions = deserialiserPrevisionsHoraire(previsionHoraireJson);
-        PrevisionsHoraire previsionsHoraire = new PrevisionsHoraire("Montreal", conditions);
+        String previsionHoraireJson = serviceMeteo.obtenirDonneesPrevisionsHoraires(localite);
+        PrevisionsHoraire previsionsHoraire = deserialiserPrevisionsHoraire(previsionHoraireJson, localite);
         System.out.println(previsionsHoraire);
 
     }
 
-    protected static MeteoActuelle deserializerMeteoActuelle(String donneesMeteo) {
-        JSONObject json = new JSONObject(donneesMeteo);
+    protected static MeteoActuelle deserializerMeteoActuelle(String donneesMeteoActuelle, String ville) {
+        JSONObject json = new JSONObject(donneesMeteoActuelle);
 
         String temperature = String.valueOf(json.getJSONObject("main").getDouble("temp"));
         String humidite = String.valueOf(json.getJSONObject("main").getInt("humidity"));
@@ -39,12 +41,12 @@ public class MonAppMeteo {
         LocalDateTime dateHeure = LocalDateTime.ofEpochSecond(json.getLong("dt"), 0, ZoneOffset.UTC);
 
         Condition condition = new Condition(temperature, humidite, pression, description, dateHeure);
-        return new MeteoActuelle("Montreal", condition);
+        return new MeteoActuelle(ville, condition);
     }
 
-    protected static List<Condition> deserialiserPrevisionsHoraire(String previsionHoraireJson) {
-        JSONObject json = new JSONObject(previsionHoraireJson);
-        JSONArray previsionsArray = json.getJSONArray("list");
+    protected static PrevisionsHoraire deserialiserPrevisionsHoraire(String donneesPrevisionsHoraires, String ville) {
+        JSONObject jsonPrevisionsHoraires = new JSONObject(donneesPrevisionsHoraires);
+        JSONArray previsionsArray = jsonPrevisionsHoraires.getJSONArray("list");
 
         List<Condition> conditions = new ArrayList<>();
         for (int i = 0; i < previsionsArray.length(); i++) {
@@ -54,13 +56,12 @@ public class MonAppMeteo {
             String humidite = String.valueOf(prevision.getJSONObject("main").getInt("humidity"));
             String pression = String.valueOf(prevision.getJSONObject("main").getInt("pressure"));
             String description = prevision.getJSONArray("weather").getJSONObject(0).getString("description");
-//            LocalDateTime dateHeure = LocalDateTime.ofEpochSecond(json.getLong("dt"), 0, ZoneOffset.UTC);
             LocalDateTime dateHeure = LocalDateTime.parse(prevision.getString("dt_txt"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
             Condition condition = new Condition(temperature, humidite, pression, description, dateHeure);
             conditions.add(condition);
         }
-        return conditions;
+        return new PrevisionsHoraire(ville, conditions);
     }
 
 }
