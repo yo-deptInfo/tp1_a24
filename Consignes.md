@@ -8,6 +8,8 @@
 - `MeteoActuelle`,
 - `PrevisionsHoraire`.
 
+Utilisez l'interface ApiService afin de prévoir de l'abstraction entre votre classe de Service et la classe `MonAppMeteo`
+
 Complétez également la classe `OpenWeatherMapService` pour que les points suivants soient respectés :
 
 1. *Attribut* :
