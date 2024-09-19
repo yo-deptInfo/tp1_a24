@@ -22,25 +22,25 @@ public class OpenWeatherMapService implements ApiService {
     }
 
     private String envoyerRequete(String endpoint) {
-        StringBuilder content = new StringBuilder();
+        StringBuilder reponse = new StringBuilder();
         try {
             URL url = new URL(BASE_URL + endpoint);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            HttpURLConnection connexion = (HttpURLConnection) url.openConnection();
+            connexion.setRequestMethod("GET");
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String inputLine;
+            BufferedReader entrant = new BufferedReader(new InputStreamReader(connexion.getInputStream()));
+            String ligneRecue;
 
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+            while ((ligneRecue = entrant.readLine()) != null) {
+                reponse.append(ligneRecue);
             }
 
-            in.close();
-            conn.disconnect();
+            entrant.close();
+            connexion.disconnect();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return content.toString();
+        return reponse.toString();
     }
 }
