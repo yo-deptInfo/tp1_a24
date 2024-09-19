@@ -24,8 +24,8 @@ public class OpenWeatherMapService implements ApiService {
     private String envoyerRequete(String endpoint) {
         StringBuilder reponse = new StringBuilder();
         try {
-            URL url = new URL(BASE_URL + endpoint);
-            HttpURLConnection connexionHttp = (HttpURLConnection) url.openConnection();
+            URL urlFinale = new URL(BASE_URL + endpoint);
+            HttpURLConnection connexionHttp = (HttpURLConnection) urlFinale.openConnection();
             connexionHttp.setRequestMethod("GET");
 
             BufferedReader entrant = new BufferedReader(new InputStreamReader(connexionHttp.getInputStream()));
