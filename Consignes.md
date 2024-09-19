@@ -46,7 +46,7 @@ Ajoutez également une section **Composants Principaux**.
 
 ## Partie 3 : Investigation
 
-### À partir de la classe `OpenWeatherMapService.java`
+### À partir de la classe `OpenWeatherMapService.java` :
 
 1. Dans la partie **Composants Principaux**, ajoutez une sous-partie **Appel à une api**. Identifiez :
    - La classe qui permet d’établir une connexion HTTP depuis une application Java.
@@ -82,7 +82,7 @@ private String envoyerRequete(String endpoint) {
 }
 ```
 
-### 2. La déserialization
+### Un nouveau concept, la déserialization :
 
 Dans la partie **Composants Principaux**, ajoutez une sous-partie "La déserialization".
 
@@ -102,7 +102,7 @@ Après avoir fait vos recherches :
 
 Notez qu'il y a une différence de structure dans les réponses selon que vous demandez la météo actuelle ou les prévisions horaires. Assurez-vous de bien gérer ces différences dans vos implémentations.
 
-## Conclusion
+## Finalement
 Une fois votre travail terminé, assurez-vous de pousser votre code et votre documentation sur le dépôt GitHub.
 
 Dernière question.
