@@ -32,22 +32,24 @@ public class MonAppMeteo {
 
     protected static MeteoActuelle deserialiserMeteoActuelle(String donneesMeteoActuelle, String ville) {
 
-        JSONObject jsonMeteoActuelle = new JSONObject(donneesMeteoActuelle);
+        JSONObject donnees = new JSONObject(donneesMeteoActuelle);
+
+        // Je vous épargne la manipulation des dates pour le moment ...
+        LocalDateTime dateHeure = LocalDateTime.ofEpochSecond(donnees.getLong("dt"), 0, ZoneOffset.UTC);
 
         // Extraction des informations sur la condition Actuelle
-        String temperature = String.valueOf(jsonMeteoActuelle.getJSONObject("main").getDouble("temp"));
-        String humidite = String.valueOf(jsonMeteoActuelle.getJSONObject("main").getInt("humidity"));
-        String pression = String.valueOf(jsonMeteoActuelle.getJSONObject("main").getInt("pressure"));
-        String description = jsonMeteoActuelle.getJSONArray("weather").getJSONObject(0).getString("description");
-        LocalDateTime dateHeure = LocalDateTime.ofEpochSecond(jsonMeteoActuelle.getLong("dt"), 0, ZoneOffset.UTC);
+        String temperature = String.valueOf(donnees.getJSONObject("main").getDouble("temp"));
+        String humidite = String.valueOf(donnees.getJSONObject("main").getInt("humidity"));
+        String pression = String.valueOf(donnees.getJSONObject("main").getInt("pressure"));
+        String description = donnees.getJSONArray("weather").getJSONObject(0).getString("description");
         Condition condition = new Condition(temperature, humidite, pression, description, dateHeure);
 
         // Extraction des informations de localisation
-        long id = jsonMeteoActuelle.getLong("id");
-        String pays = jsonMeteoActuelle.getJSONObject("sys").getString("country");
-        double latitude = jsonMeteoActuelle.getJSONObject("coord").getDouble("lat");
-        double longitude = jsonMeteoActuelle.getJSONObject("coord").getDouble("lon");
-        int fuseauHoraire = jsonMeteoActuelle.getInt("timezone"); // fuseau horaire en secondes
+        long id = donnees.getLong("id");
+        String pays = donnees.getJSONObject("sys").getString("country");
+        double latitude = donnees.getJSONObject("coord").getDouble("lat");
+        double longitude = donnees.getJSONObject("coord").getDouble("lon");
+        int fuseauHoraire = donnees.getInt("timezone"); // fuseau horaire en secondes
 
         Localisation localisation = new Localisation(id, ville, pays, latitude, longitude, fuseauHoraire);
         return new MeteoActuelle(localisation, condition);
@@ -55,18 +57,17 @@ public class MonAppMeteo {
 
     protected static PrevisionsHoraire deserialiserPrevisionsHoraire(String donneesPrevisionsHoraires, String ville) {
 
-        JSONObject jsonPrevisionsHoraires;
-        JSONObject prevision;
-        JSONObject infoVille;
-        JSONArray previsionsArray;
+        JSONObject donnees = new JSONObject(donneesPrevisionsHoraires);
 
-        jsonPrevisionsHoraires = new JSONObject(donneesPrevisionsHoraires);
-        previsionsArray = jsonPrevisionsHoraires.getJSONArray("list");
+        JSONArray previsions;
+        previsions = donnees.getJSONArray("list");
 
         // Extraction des informations sur les conditions prévues
+        JSONObject prevision;
         List<Condition> conditions = new ArrayList<>();
-        for (int i = 0; i < previsionsArray.length(); i++) {
-            prevision = previsionsArray.getJSONObject(i);
+        for (int i = 0; i < previsions.length(); i++) {
+            prevision = previsions.getJSONObject(i);
+
             String temperature = String.valueOf(prevision.getJSONObject("main").getDouble("temp"));
             String humidite = String.valueOf(prevision.getJSONObject("main").getInt("humidity"));
             String pression = String.valueOf(prevision.getJSONObject("main").getInt("pressure"));
@@ -79,7 +80,9 @@ public class MonAppMeteo {
         }
 
         // Extraction des informations de localisation
-        infoVille = jsonPrevisionsHoraires.getJSONObject("city");
+        JSONObject infoVille;
+        infoVille = donnees.getJSONObject("city");
+
         Long id = infoVille.getLong("id");
         String nomVille = infoVille.getString("name");
         String pays = infoVille.getString("country");

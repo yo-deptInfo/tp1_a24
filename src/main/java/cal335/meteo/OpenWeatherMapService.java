@@ -25,10 +25,10 @@ public class OpenWeatherMapService implements ApiService {
         StringBuilder reponse = new StringBuilder();
         try {
             URL url = new URL(BASE_URL + endpoint);
-            HttpURLConnection connexion = (HttpURLConnection) url.openConnection();
-            connexion.setRequestMethod("GET");
+            HttpURLConnection connexionHttp = (HttpURLConnection) url.openConnection();
+            connexionHttp.setRequestMethod("GET");
 
-            BufferedReader entrant = new BufferedReader(new InputStreamReader(connexion.getInputStream()));
+            BufferedReader entrant = new BufferedReader(new InputStreamReader(connexionHttp.getInputStream()));
             String ligneRecue;
 
             while ((ligneRecue = entrant.readLine()) != null) {
@@ -36,7 +36,7 @@ public class OpenWeatherMapService implements ApiService {
             }
 
             entrant.close();
-            connexion.disconnect();
+            connexionHttp.disconnect();
 
         } catch (Exception e) {
             e.printStackTrace();
