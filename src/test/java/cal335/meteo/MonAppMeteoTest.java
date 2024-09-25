@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -16,18 +17,18 @@ public class MonAppMeteoTest {
     Localisation localisationAttendue;
 
     @BeforeEach
-    public void setUp() throws IOException {
+    public void setUp() throws IOException, URISyntaxException {
         recupererJson();
         recupererLocalisationCommune();
 
     }
 
-    private void recupererJson() throws IOException {
+    private void recupererJson() throws IOException, URISyntaxException {
         // Chemin vers le fichier JSON dans src/test/resources
         String cheminMeteoActuelle =
-                getClass().getClassLoader().getResource("testMeteoActuelle.json").getPath();
+                Paths.get(getClass().getClassLoader().getResource("testMeteoActuelle.json").toURI()).toString();
         String cheminPrevisionHoraire =
-                getClass().getClassLoader().getResource("testPrevisionHoraire.json").getPath();
+                Paths.get(getClass().getClassLoader().getResource("testPrevisionHoraire.json").toURI()).toString();
 
         // Lire le contenu du fichier JSON dans une chaîne de caractères
         jsonActuel = new String(Files.readAllBytes(Paths.get(cheminMeteoActuelle)));
